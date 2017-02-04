@@ -88,8 +88,8 @@ varargout{1} = handles.output;
 function br_image_btt_Callback(hObject, eventdata, handles)
 handles.index = 1;
 handles.output = hObject;
-[fn pn] = uigetfile('*.jpg;*.png;*.bmp','select image file');
-complete = strcat(pn,fn);
+[file_name,path_name] = uigetfile('*.jpg;*.png;*.bmp','select image file');
+complete = strcat(path_name,file_name);
 global img;
 img = imread(complete);
 axes(handles.raw_image);
