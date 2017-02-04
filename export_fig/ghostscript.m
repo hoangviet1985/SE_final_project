@@ -48,22 +48,22 @@ function varargout = ghostscript(cmd)
         [varargout{1:nargout}] = system([gs_command(gs_path()) cmd]);
     catch err
         % Display possible workarounds for Ghostscript croaks
-        url1 = 'https://github.com/altmany/export_fig/issues/12#issuecomment-61467998';  % issue #12
-        url2 = 'https://github.com/altmany/export_fig/issues/20#issuecomment-63826270';  % issue #20
-        hg2_str = ''; if using_hg2, hg2_str = ' or Matlab R2014a'; end
-        fprintf(2, 'Ghostscript error. Rolling back to GS 9.10%s may possibly solve this:\n * <a href="%s">%s</a> ',hg2_str,url1,url1);
-        if using_hg2
-            fprintf(2, '(GS 9.10)\n * <a href="%s">%s</a> (R2014a)',url2,url2);
-        end
-        fprintf('\n\n');
-        if ismac || isunix
-            url3 = 'https://github.com/altmany/export_fig/issues/27';  % issue #27
-            fprintf(2, 'Alternatively, this may possibly be due to a font path issue:\n * <a href="%s">%s</a>\n\n',url3,url3);
+        %url1 = 'https://github.com/altmany/export_fig/issues/12#issuecomment-61467998';  % issue #12
+        %url2 = 'https://github.com/altmany/export_fig/issues/20#issuecomment-63826270';  % issue #20
+        %hg2_str = ''; if using_hg2, hg2_str = ' or Matlab R2014a'; end
+        %fprintf(2, 'Ghostscript error. Rolling back to GS 9.10%s may possibly solve this:\n * <a href="%s">%s</a> ',hg2_str,url1,url1);
+        %if using_hg2
+            %fprintf(2, '(GS 9.10)\n * <a href="%s">%s</a> (R2014a)',url2,url2);
+        %end
+        %fprintf('\n\n');
+        %if ismac || isunix
+            %url3 = 'https://github.com/altmany/export_fig/issues/27';  % issue #27
+            %fprintf(2, 'Alternatively, this may possibly be due to a font path issue:\n * <a href="%s">%s</a>\n\n',url3,url3);
             % issue #20
-            fpath = which(mfilename);
-            if isempty(fpath), fpath = [mfilename('fullpath') '.m']; end
-            fprintf(2, 'Alternatively, if you are using csh, modify shell_cmd from "export..." to "setenv ..."\nat the bottom of <a href="matlab:opentoline(''%s'',174)">%s</a>\n\n',fpath,fpath);
-        end
+            %fpath = which(mfilename);
+            %if isempty(fpath), fpath = [mfilename('fullpath') '.m']; end
+            %fprintf(2, 'Alternatively, if you are using csh, modify shell_cmd from "export..." to "setenv ..."\nat the bottom of <a href="matlab:opentoline(''%s'',174)">%s</a>\n\n',fpath,fpath);
+        %end
         rethrow(err);
     end
 end
@@ -149,9 +149,9 @@ function path_ = gs_path
         end
     end
     if ismac
-        error('Ghostscript not found. Have you installed it (http://pages.uoregon.edu/koch)?');
+        %error('Ghostscript not found. Have you installed it (http://pages.uoregon.edu/koch)?');
     else
-        error('Ghostscript not found. Have you installed it from www.ghostscript.com?');
+        %error('Ghostscript not found. Have you installed it from www.ghostscript.com?');
     end
 end
 

@@ -54,3 +54,6 @@ t10k-labels.idx1-ubyte
 *.pdf
 *.jpg
 *.jpeg
+*.png
+*.bmp
+*.asv
