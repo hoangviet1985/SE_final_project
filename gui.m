@@ -178,16 +178,18 @@ function pdf_btt_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 set(handles.pdf_btt,'Enable','off');
 [file_name,path_name] = uigetfile('*.pdf','select pdf file');
-in_file_path = strcat(path_name,file_name);
-out_file_path = strcat(pwd,'\pdf2png\page-%03d.png"');
-out_file_path = strcat('"',out_file_path);
-command = sprintf('-dNOPAUSE -dBATCH -sDEVICE=pnggray -r300 -sOutputFile=%s %s',out_file_path,in_file_path);
-cd export_fig;
-[status,result] = ghostscript(command);
-cd ..;
-if status == 0
-    set(handles.text2,'String','File converted successfully.');
-else
-    set(handles.text2,'String','converting failed! Please make sure you have Ghostscript installed.');
+if ischar(file_name)
+    in_file_path = strcat(path_name,file_name);
+    out_file_path = strcat(pwd,'\pdf2png\page-%03d.png"');
+    out_file_path = strcat('"',out_file_path);
+    command = sprintf('-dNOPAUSE -dBATCH -sDEVICE=pnggray -r300 -sOutputFile=%s %s',out_file_path,in_file_path);
+    cd export_fig;
+    [status,result] = ghostscript(command);
+    cd ..;
+    if status == 0
+        set(handles.text2,'String','File converted successfully.');
+    else
+        set(handles.text2,'String','converting failed! Please make sure you have Ghostscript installed.');
+    end
+    set(handles.pdf_btt,'Enable','on');
 end
-set(handles.pdf_btt,'Enable','on');
