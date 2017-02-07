@@ -88,12 +88,14 @@ function br_image_btt_Callback(hObject, eventdata, handles)
 handles.index = 1;
 handles.output = hObject;
 [file_name,path_name] = uigetfile('*.jpg;*.png;*.bmp','select image file');
-complete = strcat(path_name,file_name);
-global img;
-img = imread(complete);
-axes(handles.raw_image);
-imshow(img);
-set(handles.analyze_btt,'Enable','on');
+if ischar(file_name)
+    complete = strcat(path_name,file_name);
+    global img;
+    img = imread(complete);
+    axes(handles.raw_image);
+    imshow(img);
+    set(handles.analyze_btt,'Enable','on');
+end
 
 
 % --- Executes on button press in cam_on_btt.
@@ -146,6 +148,8 @@ else
 end
 img1 = im2bw(img1);
 axes(handles.anal_image);
+imshow(img1);
+figure;
 imshow(img1);
 
 % --- Executes on selection change in cam_list.
