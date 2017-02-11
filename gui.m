@@ -180,6 +180,10 @@ for i=1:size(tops,1)
             if glevel_count(left+1,2)<=threshold && glevel_count(right+1,2)<=threshold
                 break;
             end
+        elseif right > 255 && glevel_count(left+1,2)<=threshold
+            break;
+        elseif left < 0 && glevel_count(right+1,2)<=threshold
+            break;
         end
     end
     if left < 0
