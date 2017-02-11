@@ -148,62 +148,7 @@ else
 end
 figure;
 imshow(img1);%show grayscale image
-
-[pc,glevel] = imhist(img1);%get image's histogram
-glevel_count = [glevel pc];
-figure;
-plot(glevel,pc,'b');
-
-top = max(pc);
-tops = glevel_count(any(glevel_count>top/3,2),:);
-white_ranges = [0 0];
-for i=1:size(tops,1)
-    if tops(i,2)==top
-        threshold = 0.05*tops(i,2);
-    else
-        threshold = 0.1*tops(i,2);
-    end
-    left = glevel_count(tops(i,1)+1,1);
-    right = left;
-    while left>=0 || right<=255
-        if left>=0
-            if glevel_count(left+1,2) > threshold
-                left = left - 1;
-            end
-        end
-        if right<=255
-            if glevel_count(right+1,2) > threshold
-                right = right + 1;
-            end
-        end
-        if left>=0 && right<=255
-            if glevel_count(left+1,2)<=threshold && glevel_count(right+1,2)<=threshold
-                break;
-            end
-        elseif right > 255 && glevel_count(left+1,2)<=threshold
-            break;
-        elseif left < 0 && glevel_count(right+1,2)<=threshold
-            break;
-        end
-    end
-    if left < 0
-        left = 0;
-    end
-    if right > 255
-        right = 255;
-    end
-    white_ranges = [white_ranges;[left right]];
-end
-for i = 1:size(img1,1)
-    for j = 1:size(img1,2)
-        for k = 2:size(white_ranges,1)
-            if img1(i,j)>=white_ranges(k,1) && img1(i,j)<=white_ranges(k,2)
-                img1(i,j) = 255;
-                break;
-            end
-        end
-    end
-end
+[result, img1] = histogram_based_filter(img1);
 %img1 = im2bw(img1);         %convert image to binary image
 axes(handles.anal_image);
 imshow(img1);
