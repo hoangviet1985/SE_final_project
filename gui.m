@@ -141,12 +141,66 @@ handles.index = 4;
 set(handles.analyze_btt,'Enable','off');
 global img;
 [rows, columns, numberOfColorChannels] = size(img);
-if numberOfColorChannels > 1
+if numberOfColorChannels > 1 %check if the image is colored
     img1 = rgb2gray(img);
 else
     img1 = img;
 end
-img1 = im2bw(img1);
+figure;
+imshow(img1);%show grayscale image
+
+[pc,glevel] = imhist(img1);%get image's histogram
+glevel_count = [glevel pc];
+figure;
+plot(glevel,pc,'b');
+
+top = max(pc);
+tops = glevel_count(any(glevel_count>top/3,2),:);
+white_ranges = [0 0];
+for i=1:size(tops,1)
+    if tops(i,2)==top
+        threshold = 0.05*tops(i,2);
+    else
+        threshold = 0.1*tops(i,2);
+    end
+    left = glevel_count(tops(i,1)+1,1);
+    right = left;
+    while left>=0 || right<=255
+        if left>=0
+            if glevel_count(left+1,2) > threshold
+                left = left - 1;
+            end
+        end
+        if right<=255
+            if glevel_count(right+1,2) > threshold
+                right = right + 1;
+            end
+        end
+        if left>=0 && right<=255
+            if glevel_count(left+1,2)<=threshold && glevel_count(right+1,2)<=threshold
+                break;
+            end
+        end
+    end
+    if left < 0
+        left = 0;
+    end
+    if right > 255
+        right = 255;
+    end
+    white_ranges = [white_ranges;[left right]];
+end
+for i = 1:size(img1,1)
+    for j = 1:size(img1,2)
+        for k = 2:size(white_ranges,1)
+            if img1(i,j)>=white_ranges(k,1) && img1(i,j)<=white_ranges(k,2)
+                img1(i,j) = 255;
+                break;
+            end
+        end
+    end
+end
+%img1 = im2bw(img1);         %convert image to binary image
 axes(handles.anal_image);
 imshow(img1);
 figure;
