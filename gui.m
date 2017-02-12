@@ -149,6 +149,9 @@ end
 figure;
 imshow(img1);%show grayscale image
 [result, img1] = histogram_based_filter(img1);
+if result == 0%histogram_based_filter applied successfully
+    
+end
 %img1 = im2bw(img1);         %convert image to binary image
 axes(handles.anal_image);
 imshow(img1);
