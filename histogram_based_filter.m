@@ -2,8 +2,8 @@ function [isfail,image] = histogram_based_filter(img)
     [pc,glevel] = imhist(img);%get image's histogram
     glevel_count = [glevel pc];
     num_pixels = sum(pc);
-    figure;
-    plot(glevel,pc,'b');
+    %figure;
+    %plot(glevel,pc,'b');
 
     [top, indices] = max(pc);
     tops = glevel_count(indices(1),:);

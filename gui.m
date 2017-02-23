@@ -146,17 +146,21 @@ if numberOfColorChannels > 1 %check if the image is colored
 else
     img1 = img;
 end
-figure;
-imshow(img1);%show grayscale image
+%figure;
+%imshow(img1);%show grayscale image
 [result, img1] = histogram_based_filter(img1);
 if result == 0%histogram_based_filter applied successfully
-    
+    img1 = threshold_filter(img1);
+    [args, angles] = fourier_transform_based_filter(img1);
+    figure;
+    imshow(args);
+    figure;
+    imshow(angles);
 end
-%img1 = im2bw(img1);         %convert image to binary image
 axes(handles.anal_image);
-imshow(img1);
+imshow(img1,[]);
 figure;
-imshow(img1);
+imshow(img1,[]);
 
 % --- Executes on selection change in cam_list.
 function cam_list_Callback(hObject, eventdata, handles)
