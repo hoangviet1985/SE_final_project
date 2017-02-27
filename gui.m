@@ -151,16 +151,25 @@ end
 [result, img1] = histogram_based_filter(img1);
 if result == 0%histogram_based_filter applied successfully
     img1 = threshold_filter(img1);
-    [args, angles] = fourier_transform_based_filter(img1);
-    figure;
-    imshow(args);
-    figure;
-    imshow(angles);
+    img1 = imcomplement(logical(img1));
+    mini = min(size(img1));
+    scale = 600/mini;
+    if scale < 1
+        img1 = imresize(img1, scale);
+    end
+    global scan_res;
+    scan_res = sliding_window(img1);
 end
 axes(handles.anal_image);
-imshow(img1,[]);
+imshow(img1);
 figure;
-imshow(img1,[]);
+imshow(img1);
+hold on;
+if result == 0
+    for i = 1:size(scan_res,1)
+        rectangle('position',[scan_res(i,3) scan_res(i,2) scan_res(i,4) scan_res(i,4)],'EdgeColor', 'r');
+    end
+end
 
 % --- Executes on selection change in cam_list.
 function cam_list_Callback(hObject, eventdata, handles)

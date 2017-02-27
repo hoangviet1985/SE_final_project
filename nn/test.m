@@ -2,7 +2,7 @@ clear; close all; clc;
 load('Theta1.mat');
 load('Theta2.mat');
 X = loadMNISTImages('t10k-images.idx3-ubyte');
-X = X.';
+X = X';
 y = loadMNISTLabels('t10k-labels.idx1-ubyte');
 temp = y == 0;
 y(temp) = 10;
