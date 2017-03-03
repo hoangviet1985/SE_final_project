@@ -4,7 +4,7 @@ clear ; close all; clc
 
 input_layer_size  = 784;  % 28x28 Input Images of Digits
 hidden_layer_size = 25;   % 25 hidden units
-num_labels = 2;          % 10 labels, from 1 to 10   
+num_labels = 2;           % 2 labels, from 1 to 2 (1: character, 2: non-character)   
                           % (note that we have mapped "0" to label 10)
 
 %% =========== Part 1: Loading and Visualizing Data =============
@@ -16,10 +16,10 @@ X_train = loadMNISTImages('train-images.idx3-ubyte');
 X_train = X_train';
 X_train = logical(X_train);
 load('bin_nc.mat');
-load('all_black.mat');
-load('all_white.mat');
-X_train = [X_train; bin_nc; all_black; all_white];
-y_train = [ones(60000,1); ones(60000,1)*2; ones(30000,1)*2; ones(10000,1)*2];
+bin_nc_train = bin_nc(1:70000,:);
+X_train = X_train(1:20000,:);
+X_train = [X_train; bin_nc_train];
+y_train = [ones(20000,1); ones(70000,1)*2];
 m = size(X_train, 1);
 
 T = [y_train X_train];
@@ -31,9 +31,9 @@ y_train = T(:,1);
 X_test = loadMNISTImages('t10k-images.idx3-ubyte');
 X_test = X_test.';
 X_test = logical(X_test);
-load('bin_non_char_test.mat');
-X_test = [X_test; bin_non_char_test];
-y_test = [ones(10000,1); ones(5000,1)*2];
+bin_nc_test = bin_nc(70001:end,:);
+X_test = [X_test; bin_nc_test];
+y_test = [ones(10000,1); ones(size(bin_nc,1)-70000,1)*2];
 
 T = [y_test X_test];
 T = T(randperm(size(T,1)),:);
@@ -100,10 +100,10 @@ pause;
 
 fprintf('\nTraining Neural Network... \n')
 
-options = optimset('MaxIter', 20);
+options = optimset('MaxIter', 100);
 
 %  Try different values of lambda
-lambda = 3;
+lambda = 1;
 
 % Create "short hand" for the cost function to be minimized
 costFunction = @(p) nnCostFunction(p, ...
@@ -141,9 +141,13 @@ pause;
 %  neural network to predict the labels of the training set. This lets
 %  you compute the training set accuracy.
 
-pred = predict(Theta1_cnc, Theta2_cnc, X_test);
+[ep1, ep2] = find_epsilon_cnc(Theta1_cnc, Theta2_cnc, X_test, y_test);
+epsilon_cnc = [ep1, ep2];
+
+pred = predict_cnc(Theta1_cnc, Theta2_cnc, ep1, ep2, X_test);
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y_test)) * 100);
 
 save Theta1_cnc.mat Theta1_cnc;
 save Theta2_cnc.mat Theta2_cnc;
+save epsilon_cnc.mat epsilon_cnc;

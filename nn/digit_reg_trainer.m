@@ -129,7 +129,7 @@ pause;
 %  neural network to predict the labels of the training set. This lets
 %  you compute the training set accuracy.
 
-pred = predict(Theta1_digit, Theta2_digit, X_test);
+pred = predict_digit(Theta1_digit, Theta2_digit, X_test);
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y_test)) * 100);
 

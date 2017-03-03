@@ -154,22 +154,18 @@ if result == 0%histogram_based_filter applied successfully
     img1 = imcomplement(logical(img1));
     mini = min(size(img1));
     scale = 600/mini;
-    if scale < 1
-        img1 = imresize(img1, scale);
+    img1 = imresize(img1, scale);
+    scan_res = sliding_window(img1, 3);
+    figure;
+    imshow(img1);
+    hold on;
+    for i = 1:size(scan_res,1)
+        rectangle('position',[scan_res(i,2) scan_res(i,3) scan_res(i,1) scan_res(i,1)],'EdgeColor', 'r');
     end
-    global scan_res;
-    scan_res = sliding_window(img1);
 end
 axes(handles.anal_image);
 imshow(img1);
-figure;
-imshow(img1);
-hold on;
-if result == 0
-    for i = 1:size(scan_res,1)
-        rectangle('position',[scan_res(i,3) scan_res(i,2) scan_res(i,4) scan_res(i,4)],'EdgeColor', 'r');
-    end
-end
+
 
 % --- Executes on selection change in cam_list.
 function cam_list_Callback(hObject, eventdata, handles)
