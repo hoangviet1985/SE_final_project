@@ -20,22 +20,22 @@ function r = sliding_window(img, step_size)
         for j = 1:window_num
             I = imresize(I, 28/w_sides(j));
             
-            [Im, In] = size(I);
-            t1 = floor(Im/28)*28;
-            t2 = floor(In/28)*28;
-            for k = 1:28:t1
-                for l = 1:28:t2
-                    Iblock = I(k:k+27, l:l+27);
-                    Iblock = reshape(Iblock,[1,784]);
-                    Iblock = [w_sides(j) l+i j+i Iblock];
-                    result = [result; Iblock];
-                end
-            end
-%             fun = @(block_struct) sw_supporter(block_struct,...
-%                                               w_sides(j), i);
-%             R = blockproc(I, [28 28], fun, 'PadPartialBlocks', true);
-%             R = reshape(R, [], 787);
-%             result = [result; R];
+%             [Im, In] = size(I);
+%             t1 = floor(Im/28)*28;
+%             t2 = floor(In/28)*28;
+%             for k = 1:28:t1
+%                 for l = 1:28:t2
+%                     Iblock = I(k:k+27, l:l+27);
+%                     Iblock = reshape(Iblock,[1,784]);
+%                     Iblock = [w_sides(j) l+i j+i Iblock];
+%                     result = [result; Iblock];
+%                 end
+%             end
+            fun = @(block_struct) sw_supporter(block_struct,...
+                                              w_sides(j), i);
+            R = blockproc(I, [28 28], fun, 'PadPartialBlocks', true);
+            R = reshape(R, [], 787);
+            result = [result; R];
         end
     end
     result = result(2:end, :);
