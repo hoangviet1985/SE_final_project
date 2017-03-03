@@ -1,3 +1,4 @@
+% 0 is sucess, 1 is fail
 function [isfail,image] = histogram_based_filter(img)
     [pc,glevel] = imhist(img);%get image's histogram
     glevel_count = [glevel pc];
