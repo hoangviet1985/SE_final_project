@@ -14,7 +14,7 @@ fprintf('Loading and Visualizing Data ...\n')
 
 X_train = loadMNISTImages('train-images.idx3-ubyte');
 X_train = X_train';
-X_train = logical(X_train);
+X_train = double(logical(X_train));
 y_train = loadMNISTLabels('train-labels.idx1-ubyte');
 temp = y_train == 0;
 y_train(temp) = 10;
@@ -23,7 +23,7 @@ m = size(X_train, 1);
 %load Testing data
 X_test = loadMNISTImages('t10k-images.idx3-ubyte');
 X_test = X_test';
-X_test = logical(X_test);
+X_test = double(logical(X_test));
 y_test = loadMNISTLabels('t10k-labels.idx1-ubyte');
 temp = y_test == 0;
 y_test(temp) = 10;
@@ -91,7 +91,7 @@ fprintf('\nTraining Neural Network... \n')
 options = optimset('MaxIter', 400);
 
 %  Try different values of lambda
-lambda = 2.7;
+lambda = 2.8;
 
 % Create "short hand" for the cost function to be minimized
 costFunction = @(p) nnCostFunction(p, ...

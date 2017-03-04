@@ -161,6 +161,7 @@ if result == 0%histogram_based_filter applied successfully
     hold on;
     for i = 1:size(scan_res,1)
         rectangle('position',[scan_res(i,2) scan_res(i,3) scan_res(i,1) scan_res(i,1)],'EdgeColor', 'r');
+        text(scan_res(i,2), scan_res(i,3), num2str(scan_res(i, 4)), 'Color', 'g');
     end
 end
 axes(handles.anal_image);
