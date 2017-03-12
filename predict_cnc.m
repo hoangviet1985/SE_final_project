@@ -8,8 +8,6 @@ m = size(X, 1);
 
 h1 = sigmoid(double([ones(m, 1) X]) * Theta1');
 h2 = sigmoid([ones(m, 1) h1] * Theta2');
-p = h2(:,1) > epsilon1 & h2(:,2) < epsilon2;
-p = double(p);
-p(p == 0) = 2;
+[dummy, p] = max(h2, [], 2);
 % =========================================================================
 end

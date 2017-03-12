@@ -149,7 +149,7 @@ end
 %figure;
 %imshow(img1);%show grayscale image
 [result, img1] = histogram_based_filter(img1);
-if result == 0%histogram_based_filter applied successfully
+%if result == 0%histogram_based_filter applied successfully
     img1 = threshold_filter(img1);
     img1 = imcomplement(logical(img1));
     mini = min(size(img1));
@@ -160,10 +160,13 @@ if result == 0%histogram_based_filter applied successfully
     imshow(img1);
     hold on;
     for i = 1:size(scan_res,1)
+        if scan_res(i, 4) == 10
+            scan_res(i, 4) = 0;
+        end
         rectangle('position',[scan_res(i,2) scan_res(i,3) scan_res(i,1) scan_res(i,1)],'EdgeColor', 'r');
         text(scan_res(i,2), scan_res(i,3), num2str(scan_res(i, 4)), 'Color', 'g');
     end
-end
+%end
 axes(handles.anal_image);
 imshow(img1);
 

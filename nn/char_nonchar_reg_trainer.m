@@ -16,10 +16,12 @@ X_train = loadMNISTImages('train-images.idx3-ubyte');
 X_train = X_train';
 X_train = logical(X_train);
 load('bin_nc.mat');
+load('bill_nc.mat');
+load('viet_nc.mat');
 bin_nc_train = bin_nc(1:70000,:);
-X_train = X_train(1:20000,:);
-X_train = [X_train; bin_nc_train];
-y_train = [ones(20000,1); ones(70000,1)*2];
+bill_nc_train = bill_nc(1:200000, :);
+X_train = [X_train; bin_nc_train; bill_nc_train; viet_nc];
+y_train = [ones(60000,1); ones(270000,1)*2; ones(462,1)*2];
 m = size(X_train, 1);
 
 T = [y_train X_train];
@@ -32,8 +34,9 @@ X_test = loadMNISTImages('t10k-images.idx3-ubyte');
 X_test = X_test.';
 X_test = logical(X_test);
 bin_nc_test = bin_nc(70001:end,:);
-X_test = [X_test; bin_nc_test];
-y_test = [ones(10000,1); ones(size(bin_nc,1)-70000,1)*2];
+bill_nc_test = bill_nc(200001:end, :);
+X_test = [X_test; bin_nc_test; bill_nc_test];
+y_test = [ones(10000,1); ones(18702,1)*2; ones(21940,1)*2];
 
 T = [y_test X_test];
 T = T(randperm(size(T,1)),:);
@@ -100,10 +103,10 @@ pause;
 
 fprintf('\nTraining Neural Network... \n')
 
-options = optimset('MaxIter', 100);
+options = optimset('MaxIter', 50);
 
 %  Try different values of lambda
-lambda = 1;
+lambda = .001;
 
 % Create "short hand" for the cost function to be minimized
 costFunction = @(p) nnCostFunction(p, ...
