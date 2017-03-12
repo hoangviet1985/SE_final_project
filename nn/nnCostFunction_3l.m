@@ -17,13 +17,14 @@ function [J, grad] = nnCostFunction_3l(nn_params, ...
 
 % Reshape nn_params back into the parameters Theta1, Theta2, and Theta3 the weight matrices
 % for our 3 layer neural network
-Theta1 = reshape(nn_params(1:layer1_size * (input_layer_size + 1)), ...
+t1_all = layer1_size * (input_layer_size + 1);
+Theta1 = reshape(nn_params(1:t1_all), ...
                  layer1_size, (input_layer_size + 1));
-
-Theta2 = reshape(nn_params((1 + (layer1_size * (input_layer_size + 1))):layer2_size * (layer1_size + 1)), ...
+t2_all = layer2_size * (layer1_size + 1);
+Theta2 = reshape(nn_params(1 + t1_all : t1_all + t2_all), ...
                  layer2_size, (layer1_size + 1));
-             
-Theta3 = reshape(nn_params((1 + (layer2_size * (layer1_size + 1))):end), ...
+           
+Theta3 = reshape(nn_params(1 + t1_all + t2_all:end), ...
                  num_labels, (layer2_size + 1));
 
 
@@ -48,7 +49,7 @@ J = (-1/m)*temp1 + (lambda/2/m) * ...
     sum(sum(Theta3(:,2:size(Theta3,2)).^2, 2)));
 delta4 = a4 - tempY;
 delta3 = delta4*Theta3.*a3.*(1.-a3);
-delta2 = delta3*Theta2.*a2.*(1.-a2);
+delta2 = delta3(:,2:end)*Theta2.*a2.*(1.-a2);
 Theta1_grad = (1/m)*delta2(:,2:size(delta2,2)).'*X;
 Theta1_grad(:,2:size(Theta1_grad,2)) = Theta1_grad(:,2:size(Theta1_grad,2))+(lambda/m)*Theta1(:,2:size(Theta1,2));
 Theta2_grad = (1/m)*delta3(:,2:size(delta3,2)).'*a2;

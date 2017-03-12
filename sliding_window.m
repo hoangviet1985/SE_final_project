@@ -5,8 +5,9 @@ function r = sliding_window(img, step_size)
     w_sides = 28:4:max_w_side;
     w_sides = w_sides';
     window_num = size(w_sides,1);
-    load('nn/Theta1_digit.mat');
-    load('nn/Theta2_digit.mat');
+    load('nn/Theta1_digit_3l.mat');
+    load('nn/Theta2_digit_3l.mat');
+    load('nn/Theta3_digit_3l.mat');
     load('nn/Theta1_cnc.mat');
     load('nn/Theta2_cnc.mat');
     load('nn/epsilon_cnc.mat');
@@ -25,8 +26,9 @@ function r = sliding_window(img, step_size)
                                               Theta1_cnc, Theta2_cnc,...
                                               epsilon_cnc(1,1),...
                                               epsilon_cnc(1,2),...
-                                              Theta1_digit,...
-                                              Theta2_digit);
+                                              Theta1_digit_3l,...
+                                              Theta2_digit_3l,...
+                                              Theta3_digit_3l);
             blockproc(J, [28 28], fun, 'PadPartialBlocks', true);
         end
     end
