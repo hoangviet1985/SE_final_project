@@ -9,6 +9,7 @@ Fscore = zeros(size(epsilon1,1)*size(epsilon2,1),3);
 
 h1 = sigmoid(double([ones(m, 1) X]) * Theta1');
 h2 = sigmoid([ones(m, 1) h1] * Theta2');
+
 true_num = sum(y == 1);
 for i = 1:size(epsilon1)
     for j = 1:size(epsilon2)

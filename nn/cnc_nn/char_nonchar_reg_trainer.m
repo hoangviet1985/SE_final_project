@@ -12,7 +12,9 @@ num_labels = 2;           % 2 labels, from 1 to 2 (1: character, 2: non-characte
 % Load Training Data
 fprintf('Loading and Visualizing Data ...\n')
 
+cd ..;
 X_train = loadMNISTImages('train-images.idx3-ubyte');
+cd cnc_nn;
 X_train = X_train';
 X_train = logical(X_train);
 load('bin_nc.mat');
@@ -30,7 +32,9 @@ X_train = T(:,2:end);
 y_train = T(:,1);
 
 %load Testing data
+cd ..;
 X_test = loadMNISTImages('t10k-images.idx3-ubyte');
+cd cnc_nn;
 X_test = X_test.';
 X_test = logical(X_test);
 bin_nc_test = bin_nc(70001:end,:);
@@ -43,11 +47,13 @@ T = T(randperm(size(T,1)),:);
 X_test = T(:,2:end);
 y_test = T(:,1);
 
-% Randomly select 100 data points from training data set to display
-%sel = randperm(size(X_train, 1));
-%sel = sel(1:100);
+Randomly select 100 data points from training data set to display
+sel = randperm(size(X_train, 1));
+sel = sel(1:100);
 
+cd ..;
 displayData(X_train(1:100, :));
+cd cnc_nn;
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
@@ -64,42 +70,7 @@ Theta2_cnc = randInitializeWeights(hidden_layer_size, num_labels);
 initial_nn_params = [Theta1_cnc(:) ; Theta2_cnc(:)];
 org_initial_nn_params = initial_nn_params;
 
-%% ================ Part 3: Sigmoid Gradient  ================
-
-fprintf('\nEvaluating sigmoid gradient...\n')
-
-g = sigmoidGradient([1 -0.5 0 0.5 1]);
-fprintf('Sigmoid gradient evaluated at different learing rates[1 -0.5 0 0.5 1]:\n  ');
-fprintf('%f ', g);
-fprintf('\n\n');
-
-fprintf('Program paused. Press enter to continue.\n');
-pause;
-
-
-%% =============== Part 4: Implement Backpropagation ===============
-
-fprintf('\nChecking Backpropagation... \n');
-
-%  Check gradients by running checkNNGradients
-checkNNGradients;
-
-fprintf('\nProgram paused. Press enter to continue.\n');
-pause;
-
-
-%% =============== Part 5: Implement Regularization ===============
-
-fprintf('\nChecking Backpropagation (w/ Regularization) ... \n')
-
-%  Check gradients by running checkNNGradients
-lambda = 3;
-checkNNGradients(lambda);
-
-fprintf('Program paused. Press enter to continue.\n');
-pause;
-
-%% =================== Part 6: Training NN ===================
+%% =================== Part 3: Training NN ===================
 
 fprintf('\nTraining Neural Network... \n')
 
@@ -129,16 +100,18 @@ fprintf('Program paused. Press enter to continue.\n');
 pause;
 
 
-%% ================= Part 7: Visualize Weights =================
+%% ================= Part 4: Visualize Weights =================
 
 fprintf('\nVisualizing Neural Network... \n')
 
+cd ..;
 displayData(Theta1_cnc(:, 2:end));
+cd cnc_nn;
 
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
 
-%% ================= Part 8: Implement Predict =================
+%% ================= Part 5: Implement Predict =================
 %  After training the neural network, we would like to use it to predict
 %  the labels. You will now implement the "predict" function to use the
 %  neural network to predict the labels of the training set. This lets
@@ -147,7 +120,7 @@ pause;
 [ep1, ep2] = find_epsilon_cnc(Theta1_cnc, Theta2_cnc, X_test, y_test);
 epsilon_cnc = [ep1, ep2];
 
-pred = predict_cnc(Theta1_cnc, Theta2_cnc, ep1, ep2, X_test);
+pred = predict_cnc_threshold(Theta1_cnc, Theta2_cnc, ep1, ep2, X_test);
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y_test)) * 100);
 

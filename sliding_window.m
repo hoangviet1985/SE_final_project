@@ -5,12 +5,12 @@ function r = sliding_window(img, step_size)
     w_sides = 28:4:max_w_side;
     w_sides = w_sides';
     window_num = size(w_sides,1);
-    load('nn/Theta1_digit_3l.mat');
-    load('nn/Theta2_digit_3l.mat');
-    load('nn/Theta3_digit_3l.mat');
-    load('nn/Theta1_cnc.mat');
-    load('nn/Theta2_cnc.mat');
-    load('nn/epsilon_cnc.mat');
+    load('nn/digit_nn/Theta1_digit_3l.mat');
+    load('nn/digit_nn/Theta2_digit_3l.mat');
+    load('nn/digit_nn/Theta3_digit_3l.mat');
+    load('nn/cnc_nn/Theta1_cnc.mat');
+    load('nn/cnc_nn/Theta2_cnc.mat');
+    load('nn/cnc_nn/epsilon_cnc.mat');
     
     global pred_res;
     pred_res = zeros(1, 4);
