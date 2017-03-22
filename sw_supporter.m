@@ -1,7 +1,7 @@
-function sw_supporter(block_struct, w_side, ration, step_loc, Theta1, Theta2, epsilon1, epsilon2, Theta1_digit, Theta2_digit, Theta3_digit)
-    global pred_res; 
-    x = round((step_loc + block_struct.location(1, 2))/ration, 0);
-    y = round((step_loc + block_struct.location(1, 1))/ration, 0);
+function sw_supporter(block_struct, w_side, ration, Theta1, Theta2, epsilon1, epsilon2, Theta1_digit, Theta2_digit, Theta3_digit)
+    global pred_res;
+    x = round((block_struct.location(1, 2) - 9)/ration, 0);
+    y = round((block_struct.location(1, 1) - 9)/ration, 0);
     if ~any((pred_res(:, 2) > x-w_side) & (pred_res(:, 3) > y-w_side) &...
             pred_res(:, 1) == w_side)
         d = reshape(block_struct.data, [1, 784]);

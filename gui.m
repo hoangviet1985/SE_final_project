@@ -155,7 +155,7 @@ end
     mini = min(size(img1));
     scale = 600/mini;
     img1 = imresize(img1, scale);
-    scan_res = sliding_window(img1, 3);
+    scan_res = sliding_window(img1);
     figure;
     imshow(img1);
     hold on;

@@ -2,7 +2,7 @@
 %% Initialization
 clear ; close all; clc
 
-input_layer_size  = 784;  % 28x28 Input Images of Digits
+input_layer_size  = 784;  % 441 features extracted from a sample or 784 inputs
 hidden_layer_size = 25;   % 25 hidden units
 num_labels = 2;           % 2 labels, from 1 to 2 (1: character, 2: non-character)   
                           % (note that we have mapped "0" to label 10)
@@ -16,12 +16,16 @@ cd ..;
 X_train = loadMNISTImages('train-images.idx3-ubyte');
 cd cnc_nn;
 X_train = X_train';
-X_train = logical(X_train);
+X_train = double(logical(X_train));
+%X_train = extractHOGfeatures(X_train);
 load('bin_nc.mat');
 load('bill_nc.mat');
 load('viet_nc.mat');
 bin_nc_train = bin_nc(1:70000,:);
+%bin_nc_train = extractHOGfeatures(bin_nc_train);
 bill_nc_train = bill_nc(1:200000, :);
+%bill_nc_train = extractHOGfeatures(bill_nc_train);
+%viet_nc = extractHOGfeatures(viet_nc);
 X_train = [X_train; bin_nc_train; bill_nc_train; viet_nc];
 y_train = [ones(60000,1); ones(270000,1)*2; ones(462,1)*2];
 m = size(X_train, 1);
@@ -36,9 +40,12 @@ cd ..;
 X_test = loadMNISTImages('t10k-images.idx3-ubyte');
 cd cnc_nn;
 X_test = X_test.';
-X_test = logical(X_test);
+X_test = double(logical(X_test));
+%X_test = extractHOGfeatures(X_test);
 bin_nc_test = bin_nc(70001:end,:);
+%bin_nc_test = extractHOGfeatures(bin_nc_test);
 bill_nc_test = bill_nc(200001:end, :);
+%bill_nc_test = extractHOGfeatures(bill_nc_test);
 X_test = [X_test; bin_nc_test; bill_nc_test];
 y_test = [ones(10000,1); ones(18702,1)*2; ones(21940,1)*2];
 
@@ -47,7 +54,7 @@ T = T(randperm(size(T,1)),:);
 X_test = T(:,2:end);
 y_test = T(:,1);
 
-Randomly select 100 data points from training data set to display
+% Randomly select 100 data points from training data set to display
 sel = randperm(size(X_train, 1));
 sel = sel(1:100);
 
@@ -77,7 +84,7 @@ fprintf('\nTraining Neural Network... \n')
 options = optimset('MaxIter', 50);
 
 %  Try different values of lambda
-lambda = .001;
+lambda = 2.8;
 
 % Create "short hand" for the cost function to be minimized
 costFunction = @(p) nnCostFunction(p, ...
