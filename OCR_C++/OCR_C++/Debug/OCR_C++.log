@@ -1,0 +1,4 @@
+﻿  Driver.cpp
+c:\users\bill\desktop\se_final_project\ocr_c++\ocr_c++\driver.cpp(25): warning C4129: '.': unrecognized character escape sequence
+  OCR_C++.vcxproj -> C:\Users\Bill\Desktop\SE_final_project\OCR_C++\Debug\OCR_C++.exe
+  OCR_C++.vcxproj -> C:\Users\Bill\Desktop\SE_final_project\OCR_C++\Debug\OCR_C++.pdb (Partial PDB)
