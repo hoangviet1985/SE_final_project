@@ -3,8 +3,8 @@
 clear ; close all; clc
 
 input_layer_size  = 784;  % 28x28 Input Images of Digits
-layer1_size = 100;        % 100 hidden units of layer 1
-layer2_size = 25;         % 25 hidden units of layer 2
+layer1_size = 500;        % 500 hidden units of layer 1
+layer2_size = 150;         % 150 hidden units of layer 2
 num_labels = 10;          % 10 labels, from 1 to 10   
                           % (note that we have mapped "0" to label 10)
 
@@ -56,10 +56,10 @@ initial_nn_params = [Theta1_digit_3l(:) ; Theta2_digit_3l(:); Theta3_digit_3l(:)
 
 fprintf('\nTraining Neural Network... \n')
 
-options = optimset('MaxIter', 400);
+options = optimset('MaxIter', 200);
 
 %  Try different values of lambda
-lambda = 2.8;
+lambda = 1.2;
 
 % Create "short hand" for the cost function to be minimized
 costFunction_3l = @(p) nnCostFunction_3l(p, ...
