@@ -22,7 +22,7 @@ void read_in_binary_input(std::string file_path) {
 }
 
 int main() {
-	read_in_binary_input("..\..\nn\train_labels.idx1-ubyte");
+	read_in_binary_input("..\nn\train_labels.idx1-ubyte");
 	Mat m = input_matrix.row(10);
 	m = m.reshape(1, 28);
 	cout.flush();
