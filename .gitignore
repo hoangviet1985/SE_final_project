@@ -67,3 +67,7 @@ Temporary Items
 *.idb
 *.pdb
 *.pdb
+*.suo
+*.db
+*.opendb
+*.obj
