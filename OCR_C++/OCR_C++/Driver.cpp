@@ -73,8 +73,8 @@ void load_files() {
 
 int main() {
 	load_files();
-	int number_layer = 3;
-	int layer_sizes[] = {784, 25, 10};
+	size_t number_layer = 3;
+	size_t layer_sizes[] = {784, 25, 10};
 	Neural_Network nn(layer_sizes, number_layer);
 	cout << "End of program" << endl;
 }
