@@ -1,15 +1,17 @@
-#include "stdafx.h"
 #include "Neural_Network.h"
 
 using namespace std;
 using namespace cv;
 
-Neural_Network::Neural_Network(int l[]) {
-	layers = l;
+Neural_Network::Neural_Network(int l[], int size) {
+	layer_sizes = l;
+	layer_number = size;
+	weight_matrices = new Mat*[size];
 
 	//@TODO do this as loop
-	first_weighted_matrix = Mat(layers[1], layers[0], CV_8U);
-	second_weighted_matrix = Mat(layers[2], layers[1], CV_8U);
+	for (int i = 0; i < size - 1; i++) {
+		weight_matrices[i] = new Mat(layer_sizes[i+1], layer_sizes[i] + 1, CV_64F);
+	}
 
 	initialize_weights();
 }
@@ -19,17 +21,11 @@ Neural_Network::~Neural_Network() {
 }
 
 void Neural_Network::initialize_weights() {
-	// First Matrix
-	for (int i = 0; i < num_nodes_second_layer; i++) {
-		for (int j = 0; j < num_input_layer; j++) {
-			first_weighted_matrix.at<double>(i, j) = ((double)rand() / RAND_MAX);
-		}
-	}
-
-	// Second Matrix
-	for (int i = 0; i < num_output_layer; i++) {
-		for (int j = 0; j < num_nodes_second_layer; j++) {
-			second_weighted_matrix.at<double>(i, j) = ((double)rand() / RAND_MAX);
+	for (int i = 0; i < layer_number - 1; i++) {
+		for (int j = 0; j < layer_sizes[i+1]; j++) {
+			for (int k = 0; k < layer_sizes[i] + 1; k++) {
+				weight_matrices[i]->at<double>(j, k) = ((double)rand() / RAND_MAX);
+			}
 		}
 	}
 }
