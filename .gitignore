@@ -57,3 +57,6 @@ Temporary Items
 *.png
 *.bmp
 *.asv
+
+#Visual Studio files
+*.ipch
