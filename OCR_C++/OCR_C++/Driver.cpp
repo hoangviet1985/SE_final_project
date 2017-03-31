@@ -7,7 +7,7 @@
 using namespace std;
 using namespace cv;
 
-Mat input_matrix(60000, 784, CV_64F);
+Mat input_matrix(60000, 785, CV_64F);
 Mat label_matrix(60000, 10, CV_64F);
 
 void load_files() {
@@ -20,8 +20,14 @@ void load_files() {
 	fileIn.seekg(16);
 
 	for (int i = 0; i < 60000; i++) {
-		for (int j = 0; j < 784; j++) {
-			fileIn >> input_matrix.at<double>(i, j);
+		for (int j = 0; j < 785; j++) {
+			if (j == 0) {
+				input_matrix.at<double>(i, j) = 1;//bias = 1;
+			}
+			else {
+				fileIn >> input_matrix.at<double>(i, j);//range from 0 to 255
+				input_matrix.at<double>(i, j) = input_matrix.at<double>(i, j) / 255; //range from 0 to 1;
+			}
 		}
 	}
 	fileIn.close();

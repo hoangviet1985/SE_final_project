@@ -27,7 +27,7 @@ void Neural_Network::initialize_weights() {
 	for (size_t i = 0; i < layer_number - 1; i++) {
 		for (size_t j = 0; j < layer_sizes[i+1]; j++) {
 			for (size_t k = 0; k < layer_sizes[i] + 1; k++) {
-				weight_matrices[i]->at<double>(j, k) = ((double)rand() / RAND_MAX);
+				weight_matrices[i]->at<double>(j, k) = ((double)rand() / RAND_MAX)*4 - 2;
 			}
 		}
 	}
