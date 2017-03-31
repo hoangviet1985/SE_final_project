@@ -4,9 +4,12 @@
 using namespace std;
 using namespace cv;
 
-Neural_Network::Neural_Network() {
-	first_weighted_matrix = Mat(num_nodes_second_layer, num_input_layer, CV_8U);
-	second_weighted_matrix = Mat(num_output_layer, num_nodes_second_layer, CV_8U);
+Neural_Network::Neural_Network(int l[]) {
+	layers = l;
+
+	//@TODO do this as loop
+	first_weighted_matrix = Mat(layers[1], layers[0], CV_8U);
+	second_weighted_matrix = Mat(layers[2], layers[1], CV_8U);
 
 	initialize_weights();
 }
