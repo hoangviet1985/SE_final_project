@@ -60,8 +60,10 @@ Temporary Items
 
 #Visual Studio files
 *.ipch
-OCR_C++/.vs/
-OCR_C++/Debug/
-OCR_C++/Release/
-OCR_C++/OCR_C++/Debug/
-OCR_C++/OCR_C++/x64/
+*.tlog
+*.log
+*.exe
+*.ilk
+*.idb
+*.pdb
+*.pdb
