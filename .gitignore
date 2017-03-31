@@ -61,3 +61,5 @@ Temporary Items
 #Visual Studio files
 *.ipch
 .vs/
+Debug/
+Release/
