@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "Neural_Network.h"
-
 
 using namespace std;
 using namespace cv;

@@ -72,6 +72,5 @@ void load_files() {
 
 int main() {
 	load_files();
-
 	cout << "End of program" << endl;
 }
