@@ -19,9 +19,11 @@ void load_files() {
 	}
 	fileIn.seekg(16);
 
+	char temp[784];
 	for (int i = 0; i < 60000; i++) {
-		for (int j = 0; j < 784; j++) {
-			fileIn >> input_matrix.at<double>(i, j);//range from 0 to 255
+		fileIn.read(temp, 784);
+		for (int j = 0; j < 784; j++) { 
+			input_matrix.at<double>(i, j) = (unsigned char)temp[j];//range from 0 to 255
 			input_matrix.at<double>(i, j) = input_matrix.at<double>(i, j) / 255; //range from 0 to 1;
 		}
 	}
@@ -36,32 +38,34 @@ void load_files() {
 
 	fileIn.seekg(8);
 
-	char c;
-	for (int i = 0; i < 60000; i++) {
-		fileIn >> c;
-		switch (c) {
-			case 0: label_matrix.at<double>(i, 0) = 1; break;
-			case 1: label_matrix.at<double>(i, 1) = 1; break;
-			case 2: label_matrix.at<double>(i, 2) = 1; break;
-			case 3: label_matrix.at<double>(i, 3) = 1; break;
-			case 4: label_matrix.at<double>(i, 4) = 1; break;
-			case 5: label_matrix.at<double>(i, 5) = 1; break;
-			case 6: label_matrix.at<double>(i, 6) = 1; break;
-			case 7: label_matrix.at<double>(i, 7) = 1; break;
-			case 8: label_matrix.at<double>(i, 8) = 1; break;
-			default:label_matrix.at<double>(i, 9) = 1; break;
+	char c[1000];
+	for (int i = 0; i < 60; ++i) {
+		fileIn.read(c, 1000);
+		for (int j = 0; j < 1000; j++) {
+			switch (c[j]) {
+			case 0: label_matrix.at<double>(i * 1000 + j, 0) = 1; break;
+			case 1: label_matrix.at<double>(i * 1000 + j, 1) = 1; break;
+			case 2: label_matrix.at<double>(i * 1000 + j, 2) = 1; break;
+			case 3: label_matrix.at<double>(i * 1000 + j, 3) = 1; break;
+			case 4: label_matrix.at<double>(i * 1000 + j, 4) = 1; break;
+			case 5: label_matrix.at<double>(i * 1000 + j, 5) = 1; break;
+			case 6: label_matrix.at<double>(i * 1000 + j, 6) = 1; break;
+			case 7: label_matrix.at<double>(i * 1000 + j, 7) = 1; break;
+			case 8: label_matrix.at<double>(i * 1000 + j, 8) = 1; break;
+			default:label_matrix.at<double>(i * 1000 + j, 9) = 1; break;
+			}
 		}
 	}
 }
 
 int main() {
+	cout << "Loading training data ..." << endl;
 	load_files();
+	cout << "Training ..." << endl;
 	size_t number_layer = 3;
 	size_t layer_sizes[] = {784, 25, 10};
 	Neural_Network nn(layer_sizes, number_layer);
-	Mat output = nn.forward_propagation(input_matrix);
-	for (int i = 0; i < 10; i++) {
-		cout << output.at<double>(0, i) << endl;
-	}
-	cout << "End of program" << endl;
+	nn.train(input_matrix, label_matrix, 0.01, 0.001, 10);//traning set, label set, regularization parameter, minimum error
+	cout << "Training done." << endl;
+	system("pause");//system("read") for Linux -> Press any key to continue...
 }
